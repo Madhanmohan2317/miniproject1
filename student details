@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct Student{
+    int marks;
+    char name[50];
+    int roll;
+};
+void addStudent(){
+    struct Student b;
+    FILE *file=fopen("libary.txt","ab");
+    if(!file){
+        printf("Error opening file !\n");
+        return;
+    }
+    printf("Enter Student Roll No:");
+    scanf("%d",&b.roll);
+    printf("Enter Name :");
+    scanf(" %[^\n]",b.name);
+    printf("Enter marks:");
+    scanf(" %d",&b.marks);
+    fwrite(&b,sizeof(b),1,file);
+    fclose(file);
+    printf("Student added sucessfully!\n");
+}
+void displayStudents(){
+    struct Student b;
+    FILE *file = fopen("libary.txt", "rb");
+    if(!file){
+        printf("No Student available!\n");
+        return;
+    }
+    printf("\nRoll\tName\tMarks\n");
+    while(fread(&b,sizeof(b),1,file)){
+        printf("%d\t%s\t%d\n",b.roll,b.name,b.marks);
+    }
+    fclose(file);
+}
+int main(){
+    int choice;
+    while(1){
+        printf("\n1.Add Student\n2.View Students\n3.Exit\nEnter your choice:");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1: addStudent();break;
+            case 2: displayStudents();break;
+            case 3: exit(0);
+            default:printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}
